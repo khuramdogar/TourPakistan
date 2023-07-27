@@ -1,0 +1,120 @@
+﻿@using System.Globalization
+@using System.Security.Policy
+@model List<TP.Models.WebModels.EventModel>
+@{
+    ViewBag.Title = "Event Management";
+    Session["MenuKey"] = "2";
+    Session["SubMenuKey"] = "3";
+}
+
+
+<div class="portlet light bg-inverse formBodyRemoveSideSpace formBodyMinHeight">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bulb font-red-sunglo"></i>
+            <span class="caption-subject font-red-sunglo bold uppercase">Event</span>
+            <span class="caption-helper">@ViewBag.Title</span>
+        </div>
+        <div class="actions">
+            <a href="@Url.Action("AddEvent","Event")" class="btn default yellow-stripe">
+                <i class="fa fa-plus"></i>
+                <span class="hidden-480">
+                    Add New Event
+                </span>
+            </a>
+
+            @*<a href="javascript:;" class="btn default red-stripe" id="btnResetFltr">
+                    <i class="fa fa-recycle"></i>
+                    <span class="hidden-480">
+                        Reset
+                    </span>
+                </a>
+                <a href="javascript:;" class="btn default blue-stripe" id="btnFltr">
+                    <i class="fa fa-filter"></i>
+                    <span class="hidden-480">
+                        Filter
+                    </span>
+                </a>*@
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <form class="form-horizontal">
+            <div class="form-body">
+                <div class="portlet box">
+                    <div class="portlet-body flip-scroll">
+                        <table id="dataTable" class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="flip-content">
+                                <tr>
+                                    <th class="" style="width: 5%">Id</th>
+                                    <th class="">Event Title</th>
+                                    <th class="">Location</th>
+                                    <th class="">Start Date</th>
+                                    <th class="">End Date</th>
+                                    <th class="">Registration Start</th>
+                                    <th class="">Registration End</th>
+                                    <th class="">Organizer</th>
+                                    <th class="">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Event in Model)
+                                {
+                                    <tr>
+                                        <td>@Event.EventId</td>
+                                        <td>@Event.Title</td>
+                                        <td><a href="@Url.Action("AddLocation","Location")/@Event.LocationId">@Event.LocationName</a></td>
+                                        <td>@Event.ScheduledDate.Value.ToString("dd-MMM-yyyy")</td>
+                                        <td>@Event.EndDate.Value.ToString("dd-MMM-yyyy")</td>
+                                        <td>@Event.RegistrationStartDate.Value.ToString("dd-MMM-yyyy")</td>
+                                        <td>@Event.RegistrationEndDate.Value.ToString("dd-MMM-yyyy")</td>
+                                        <td>@Event.RecCreatedByName</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn blue-madison dropdown-toggle" data-toggle="dropdown">
+                                                    Actions <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop2">
+                                                    <li>
+                                                        <a href="@Url.Action("AddEvent", "Event")/@Event.EventId">
+                                                            <i class=" fa fa-pencil">
+                                                            </i> Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("Delete", "Event")/@Event.EventId">
+                                                            <i class=" fa fa-trash-o">
+                                                            </i> Delete
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#dataTable').dataTable({
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": 10,
+            //"bFilter": true,
+            "searching": true,
+            "bLengthChange": false,
+            //select: true,
+            "info": true
+    });
+    });
+</script>
+
+
+

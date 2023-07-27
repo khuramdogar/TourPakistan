@@ -1,0 +1,140 @@
+﻿@model List<TP.Models.WebModels.LocationModel>
+@{
+    ViewBag.Title = "Location Management";
+    Session["MenuKey"] = "2";
+    Session["SubMenuKey"] = "3";
+}
+
+
+<div class="portlet light bg-inverse formBodyRemoveSideSpace formBodyMinHeight">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bulb font-red-sunglo"></i>
+            <span class="caption-subject font-red-sunglo bold uppercase">Location</span>
+            <span class="caption-helper">@ViewBag.Title</span>
+        </div>
+        <div class="actions">
+            <a href="@Url.Action("AddLocation","Location")" class="btn default yellow-stripe">
+                <i class="fa fa-plus"></i>
+                <span class="hidden-480">
+                    Add New Location
+                </span>
+            </a>
+
+            @*<a href="javascript:;" class="btn default red-stripe" id="btnResetFltr">
+                    <i class="fa fa-recycle"></i>
+                    <span class="hidden-480">
+                        Reset
+                    </span>
+                </a>
+                <a href="javascript:;" class="btn default blue-stripe" id="btnFltr">
+                    <i class="fa fa-filter"></i>
+                    <span class="hidden-480">
+                        Filter
+                    </span>
+                </a>*@
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <form class="form-horizontal">
+            <div class="form-body">
+                <div class="portlet box">
+                    <div class="portlet-body flip-scroll">
+                        <table id="dataTable" class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="flip-content">
+                            <tr>
+                                <th class="" style="width: 5%">Id</th>
+                                <th class="">Location Name</th>
+                                <th class="">Description</th>
+                                <th class="">Area</th>
+                                <th class="">Province</th>
+                                <th class="">Category</th>
+                                <th class="">State</th>
+                                <th class=""></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Location in Model)
+                                {
+                                    <tr>
+                                        <td>@Location.LocationId</td>
+                                        <td>@Location.LocationName</td>
+                                        <td>@Location.LocationDescription</td>
+                                        <td>@Location.AreaName</td>
+                                        <td>@Location.ProvinceName</td>
+                                        <td>@Location.CategoryName</td>
+                                        <td>@if(@Location.IsActive){<label class='label label-success '>Enabled</label>}
+                                            else
+                                            {<label class='label label-danger'>Disabled</label>}</td>
+                                        <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn blue-madison dropdown-toggle" data-toggle="dropdown">
+                                                        Actions <i class="fa fa-angle-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop2">
+                                                        <li>
+                                                            <a href="@Url.Action("AddLocation", "Location")/@Location.LocationId">
+                                                                <i class="fa fa-pencil"></i> Edit
+                                                            </a>
+                                                        </li>
+                                                        
+                                                        @if (User.IsInRole("Admin"))
+                                                        {
+                                                            <li>
+                                                                @if (Location.IsActive)
+                                                                {
+                                                                    <a href="@Url.Action("Activate", "Location")/@Location.LocationId">
+                                                                        <i class="fa fa-ban"></i> Disable
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="@Url.Action("Activate", "Location")/@Location.LocationId">
+                                                                        <i class="fa fa-check"></i> Enable
+                                                                    </a>
+                                                                }
+                                                            </li>
+                                                            <li>
+                                                                <a href="@Url.Action("Delete", "Location")/@Location.LocationId">
+                                                                    <i class="fa fa-trash-o"></i> Delete
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        <li>
+                                                            <a href="@Url.Action("Images","Location")/@Location.LocationId">
+                                                                <i class="fa fa-file-picture-o"></i> Images
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#dataTable').dataTable({
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": 10,
+            //"bFilter": true,
+            "searching": true,
+            "bLengthChange": false,
+            //select: true,
+            "info": true
+    });
+    });
+</script>
+
+
+

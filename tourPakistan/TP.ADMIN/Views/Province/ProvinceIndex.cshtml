@@ -1,0 +1,91 @@
+﻿@using System.Globalization
+@model List<TP.Models.WebModels.ProvinceModel>
+@{
+    ViewBag.Title = "Province Management";
+    Session["MenuKey"] = "2";
+    Session["SubMenuKey"] = "3";
+}
+
+
+<div class="portlet light bg-inverse formBodyRemoveSideSpace formBodyMinHeight">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bulb font-red-sunglo"></i>
+            <span class="caption-subject font-red-sunglo bold uppercase">Province</span>
+            <span class="caption-helper">@ViewBag.Title</span>
+        </div>
+        <div class="actions">
+            <a href="@Url.Action("AddProvince","Province")" class="btn default yellow-stripe">
+                <i class="fa fa-plus"></i>
+                <span class="hidden-480">
+                    Add New Province
+                </span>
+            </a>
+
+            @*<a href="javascript:;" class="btn default red-stripe" id="btnResetFltr">
+                    <i class="fa fa-recycle"></i>
+                    <span class="hidden-480">
+                        Reset
+                    </span>
+                </a>
+                <a href="javascript:;" class="btn default blue-stripe" id="btnFltr">
+                    <i class="fa fa-filter"></i>
+                    <span class="hidden-480">
+                        Filter
+                    </span>
+                </a>*@
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <form class="form-horizontal">
+            <div class="form-body">
+                <div class="portlet box">
+                    <div class="portlet-body flip-scroll">
+                        <table id="dataTable" class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="flip-content">
+                                <tr>
+                                    <th class="" style="width: 15%">Province Id</th>
+                                    <th class="">Province Name</th>
+                                    <th class="">Added By</th>
+                                    <th class="">Added Date</th>
+                                    <th class="">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var province in Model)
+                                {
+                                    <tr>
+                                        <td>@province.ProvinceId</td>
+                                        <td>@province.ProvinceName</td>
+                                        <td>@province.AddedBy</td>
+                                        <td>@province.AddedDate</td>
+                                        <td><a href="@Url.Action("AddProvince","Province")/@province.ProvinceId" class="btn btn-sm blue-steel"><i class="fa fa-edit"></i> Edit</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#dataTable').dataTable({
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": 10,
+            //"bFilter": true,
+            "searching": true,
+            "bLengthChange": false,
+            //select: true,
+            "info": true
+    });
+    });
+</script>
+
+
+

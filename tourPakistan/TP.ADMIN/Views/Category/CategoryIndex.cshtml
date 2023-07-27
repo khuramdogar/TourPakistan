@@ -1,0 +1,98 @@
+﻿@using System.Globalization
+@model List<TP.Models.WebModels.CategoryModel>
+@{
+    ViewBag.Title = "Category Management";
+    Session["MenuKey"] = "2";
+    Session["SubMenuKey"] = "3";
+}
+
+
+<div class="portlet light bg-inverse formBodyRemoveSideSpace formBodyMinHeight">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bulb font-red-sunglo"></i>
+            <span class="caption-subject font-red-sunglo bold uppercase">Category</span>
+            <span class="caption-helper">@ViewBag.Title</span>
+        </div>
+        <div class="actions">
+            <a href="@Url.Action("AddCategory","Category")" class="btn default yellow-stripe">
+                <i class="fa fa-plus"></i>
+                <span class="hidden-480">
+                    Add New Category
+                </span>
+            </a>
+
+            @*<a href="javascript:;" class="btn default red-stripe" id="btnResetFltr">
+                    <i class="fa fa-recycle"></i>
+                    <span class="hidden-480">
+                        Reset
+                    </span>
+                </a>
+                <a href="javascript:;" class="btn default blue-stripe" id="btnFltr">
+                    <i class="fa fa-filter"></i>
+                    <span class="hidden-480">
+                        Filter
+                    </span>
+                </a>*@
+        </div>
+    </div>
+
+    <div class="portlet-body form">
+        <form class="form-horizontal">
+            <div class="form-body">
+                <div class="portlet box">
+                    <div class="portlet-body flip-scroll">
+                        <table id="dataTable" class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="flip-content">
+                                <tr>
+                                    <th class="" style="width: 15%">Category Id</th>
+                                    <th class="">Category Name</th>
+                                    <th class="">State</th>
+                                    <th class="">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var category in Model)
+                                {
+                                    <tr>
+                                        <td>@category.CategoryId</td>
+                                        <td>@category.CategoryName</td>
+                                        <td>@if (category.IsActive)
+                                            {
+                                                <button class="btn green-haze">Active</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn red-flamingo">In active</button>
+                                            }</td>
+                                        <td><a href="@Url.Action("AddCategory","Category")/@category.CategoryId" class="btn btn-sm blue-steel"><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="@Url.Action("Delete","Category")/@category.CategoryId" class="btn btn-sm red-flamingo"><i class="fa fa-edit"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#dataTable').dataTable({
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": 10,
+            //"bFilter": true,
+            "searching": true,
+            "bLengthChange": false,
+            //select: true,
+            "info": true
+    });
+    });
+</script>
+
+
+

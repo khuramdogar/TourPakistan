@@ -1,0 +1,80 @@
+﻿@using System.Web.Mvc.Html
+@model TP.Models.WebViewModels.AreaViewModel
+@{
+    ViewBag.Title = "Add Area";
+    Session["MenuKey"] = "2";
+    Session["SubMenuKey"] = "3";
+}
+
+<div class="portlet light bg-inverse formBodyRemoveSideSpace formBodyMinHeight">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bulb font-red-sunglo"></i>
+            <span class="caption-subject font-red-sunglo bold uppercase">Area</span>
+            <span class="caption-helper">@ViewBag.Title</span>
+        </div>
+        <div class="actions">
+            <button class="btn default blue-stripe toBeHidden" id="btnFltr" type="submit" form="SupplierBankAccountForm" name="saveCreate" onclick="return (ValidateFields(event) && ValidateBill());">
+                <i class="fa fa-plus-square-o"></i>
+                <span class="hidden-480">
+                    Save & New
+                </span>
+            </button>
+            <button class="btn default green-stripe toBeHidden" id="btnFltr" type="submit" form="SupplierBankAccountForm" name="save" onclick="return (ValidateFields(event) && ValidateBill());">
+                <i class="fa fa-save"></i>
+                <span class="hidden-480">
+                    Save & Close
+                </span>
+            </button>
+            <a href="@Url.Action("AreaIndex", "Area")" class="btn default yellow-stripe">
+                <i class="fa fa-list"></i>
+                <span class="hidden-480">
+                    All Areas
+                </span>
+            </a>
+        </div>
+    </div>
+
+
+    @using (Html.BeginForm("AddArea", "Area", FormMethod.Post, new { @class = "form-horizontal", @id = "SupplierBankAccountForm", role = "form" }))
+    {
+        <div class="portlet-body form">
+
+            <div class="container-fluid">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Area.AreaId)
+                @Html.HiddenFor(m => m.Area.RecCreatedBy)
+                @Html.HiddenFor(m => m.Area.RecCreatedDate)
+
+                <div class="form-group margin-top-20">
+                    @Html.Label("Area Name", new { @class = "col-md-3 control-label requiredLabel" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Area.AreaName, new { @class = "form-control mandatory", placeholder = "Area Name", @id = "AreaName" })
+                    </div>
+                </div>
+                
+                <div class="form-group margin-top-20">
+                    @Html.Label("Area Description", new { @class = "col-md-3 control-label requiredLabel" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Area.AreaDescription, new { @class = "form-control mandatory", placeholder = "Area Description", @id = "AreaDescripption" })
+                    </div>
+                </div>
+                
+                <div class="form-group margin-top-20">
+                    @Html.Label("Province", new { @class = "col-md-3 control-label requiredLabel" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.Area.ProvinceId, new SelectList(Model.ProvinceDdl, "ProvinceId", "ProvinceName", Model.Area.ProvinceId), "Select Province", new { @class = "form-control mandatory dropdown-content select2me"})
+                    </div>
+                </div>
+
+                <div class="form-group margin-top-20">
+                    @Html.Label("Is Active", new { @class = "col-md-3 control-label requiredLabel" })
+                    <div class="col-md-4">
+                        @Html.CheckBoxFor(m => m.Area.IsActive, new { @class = "form-control mandatory", @id = "IsActiveArea" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
